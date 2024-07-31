@@ -1,41 +1,41 @@
 n, m = map(int, input().split())
+array = [list(map(int, input().split())) for _ in range(n)]
 
-mat = [list(map(int, input().split())) for _ in range(n)]
+#ㄴ자 모양에서 최대값구하기
+def left():
+    result1 = 0
+    for i in range(n-1):
+        for j in range(m-1):
+            for k in range(4):
+                if k == 0:
+                    tro1 = array[i][j] + array[i+1][j] + array[i+1][j+1]
+                    result1 = max(result1, tro1)
+                elif k == 1:
+                    tro1 = array[i][j+1] + array[i+1][j] + array[i+1][j+1]
+                    result1 = max(result1, tro1)
+                elif k == 2:
+                    tro1 = array[i][j] + array[i+1][j] + array[i][j+1]
+                    result1 = max(result1, tro1)
+                elif k == 3:
+                    tro1 = array[i][j] + array[i+1][j+1] + array[i][j+1]
+                    result1 = max(result1, tro1)
+    return result1
+#가로 1자 모양에서 최대값 구하기
+def right1():
+    result2 = 0
+    for i in range(n):
+        for j in range(m-2):
+            tro2 = array[i][j] + array[i][j+1] + array[i][j+2]
+            result2 = max(result2, tro2)
+    return result2
+#세로 1자 모양에서 최대값 구하기
+def right2():
+    result3 = 0
+    for j in range(m):
+        for i in range(n-2):
+            tro3 = array[i][j] + array[i+1][j] + array[i+2][j]
+            result3 = max(result3, tro3)
+    return result3
 
-
-max_case1 = 0 
-max_case2 = 0 
-max_case3 = 0 
-max_case4 = 0 
-max_case5 = 0 
-max_case6 = 0 
-
-for x in range(n):
-    for y in range(m):        
-        if 1 <= y <= m-1 and 1 <= x <= n-1:
-            case1 = mat[x][y] + mat[x-1][y] + mat[x][y]
-            if case1 > max_case1:
-                max_case1 = case1
-        if 1 <= x < n-1 and 0 <= y <= m-2:
-            case2 = mat[x-1][y] + mat[x][y] + mat[x][y+1]
-            if case2 > max_case2:
-                max_case2 = case2
-        if 0 <= x <= n-2 and 0 <= y <= m-2:
-            case3 = mat[x][y] + mat[x][y+1] + mat[x+1][y]
-            if case3 > max_case3:
-                max_case3 = case3
-        if 0 <= x <= n-2 and 1 <= y <= m-2:
-            case4 = mat[x][y] + mat[x][y-1] + mat[x+1][y]
-            if case4 > max_case4:
-                max_case4 = case4
-        if 0 <= x <= n-1 and 0 <= y <= m-3:
-            case5 = mat[x][y] + mat[x][y+1] + mat[x][y+2]
-            if case5 > max_case5:
-                max_case5 = case5
-        if 0 <= x <= n-3 and 0 <= y <= m-1:
-            case6 = mat[x][y] + mat[x+1][y] + mat[x+2][y]
-            if case6 > max_case6:
-                max_case6 = case6
-
-total_max = max(max_case1, max_case2, max_case3, max_case4, max_case5, max_case6)
-print(total_max)
+result = max(left(), right1(), right2())
+print(result)

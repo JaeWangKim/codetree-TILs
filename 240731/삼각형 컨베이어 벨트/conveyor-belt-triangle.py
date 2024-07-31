@@ -8,7 +8,7 @@ d = list(map(int,input().split()))
 total = l_u + r_u + d
 
 for i in range(t):
-    temp = total[0]
+    temp = total[-1]
     for j in range(3*n-1, 0, -1):
         total[j] = total[j-1]
     

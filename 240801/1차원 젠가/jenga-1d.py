@@ -8,7 +8,7 @@ array = []
 for _ in range(n):
     array.append(int(input()))
 # temp 만듬
-array.reverse()
+
 
 s1, e1 = map(int, input().split())
 s2, e2  = map(int, input().split())
@@ -39,8 +39,6 @@ for i in range(n):
     
 for i in range(n):
     array[i] = temp2[i]
-
-array.reverse()
 
 print(len(list(a for a in array if a!=0)))
 for i in array:

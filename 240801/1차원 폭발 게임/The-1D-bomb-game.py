@@ -1,54 +1,47 @@
+# 내가 푼 거
 n, m = map(int, input().split())
 
-array = [int(input()) for _ in range(n)]
+arr = [int(input()) for _ in range(n)]
 
-# 1. 연속인지 체크하는, 2. 제거하는, 3.위치 끌어 내리는,  1,2번 기능을  chech함수에서 완성함
-
-def check(arr, m):
-    constant = 1
-
-    for i in range(1, n):
-        if arr[i-1] == arr[i]:
-            constant += 1
-            if i == n-1 and arr[i] == 0:
-                constant = 1
-                return arr, constant
+#연속된거 개수 세주기
+def get_counts(arr):
+    cnt = 0
+    num = len(arr)
+    counts = [0] * num
+    for i in range(num-1, 0, -1):
+        if arr[i] == arr[i-1]:
+            cnt += 1
         else:
-            #만약 연속된 수가 m 이상이면 그냥 바로 그 구간을 0으로 제거해줘 현재 i는 연속되지 않은 순간이니 range()를 i-1까지 타도록 설정한 것
-            if constant >= m:
-                for j in range(i-constant, i):
-                    arr[j] = 0
-            else:
-                constant = 1
-    return arr, constant
+            cnt = 0
+        counts[i] = cnt
 
-def check_after(arr):
-    n = len(arr)
-    temp = [0] * n
-    temp_row = 0
-    for i in range(n):
-        if arr[i] != 0:
-            temp[temp_row] = arr[i]
-            temp_row += 1
-    for i in range(n):
-        arr[i] = temp[i]
-    
-    return arr
+    return counts
 
+#폭탄이 터질수 있는 조건인지 확인하기
+def can_bomb(counts, m):
+    return any(i >= m-1 for i in counts)
+
+#터지는 인덱스 범위로 1로 만들고 1이 아닌 것들만 저장해서 내보내기
+def bomb(arr, counts, m):
+    if m == 1:
+        return []
+    num = len(arr)
+    bombed = [0] * num
+    for i, cnt in enumerate(counts):
+        if cnt >= m-1:
+            for j in range(i-1, i+cnt):
+                bombed[j] = 1
+    return [arr[i] for i in range(num) if not bombed[i]]
 
 
 while True:
-
-    # 먼저 check()함수를 통해 연속된 부분을 확인하고 제거한다.
-    arr_check, constant = check(array, m)
-    # chech_after 함수를 통해 제거된 부분을 제외하고 아래로 떨어트린다.
-    array = check_after(arr_check)
-
-    arr_chech, constant = check(array, m)
-    if constant == 1:
+    #현재 리스트에서 연속된게 있는지 파악
+    cnts = get_counts(arr)
+    #폭탄이 터질수 있는게 없다면 종료
+    if not can_bomb(cnts, m):
         break
+    arr = bomb(arr, cnts, m)
 
-print(len(list(a for a in array if a!=0)))
-for i in array:
-    if i != 0:
-        print(i)
+print(len(arr))
+for i in arr:
+    print(i)

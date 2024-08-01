@@ -32,10 +32,12 @@ def boomb(arr, boomb_x, boomb_y):
     a -= 1
     #행에 대해서 먼저 제거하기
     for i in range(boomb_y-a, boomb_y+a+1):
-        arr[boomb_x][i] = 0
+        if i <= n:
+            arr[boomb_x][i] = 0
     #열에 대해 제거하기
     for i in range(boomb_x-a, boomb_x+a+1):
-        arr[i][boomb_y] =0
+        if i <= n:
+            arr[i][boomb_y] =0
 
     return arr
 

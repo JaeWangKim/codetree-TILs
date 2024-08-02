@@ -15,7 +15,7 @@ def can_move():
     pass
 def simulate(arr):
     global c_col,c_row, m, count
-    for row in range(-1, n-1):
+    for row in range(-1, n):
         for col in range(0,0+m):
             c_row = row
             n_x = c_row +1

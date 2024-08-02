@@ -1,46 +1,61 @@
-n, m, k = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(4)]
+n = 4
+direction = input()
 
-array = [
-    list(map(int, input().split())) for _ in range(n)
-]
-k -= 1
-c_col = k
-c_row = -1
-count = 0
-# 1. 블럭 범위에 있는지 확인하는 함수 , 2. 상하좌우에서 하만 사용해서 내리는데, m개수만큼의 블럭을 for문으로 내리는 함수(하나라도 못움직이면 브레이크)
-def in_range(x, y):
-    return 0<= x<= n-1 and 0<= y <= n-1
+temp = [[0] * n for _ in range(n)]
 
-def can_move():
-    pass
-def simulate(arr):
-    global c_col,c_row, m, count
-    for row in range(-1, n):
-        for col in range(0,0+m):
-            c_row = row
-            n_x = c_row +1
-            n_y = col
-            if in_range(n_x, n_y) and arr[n_x][n_y] != 1:
-                c_col = n_y
-                c_row = n_x
-                arr[c_row][c_col] = 1
-                if row > -1:
-                    arr[c_row-1][c_col] = 0            
-            else: 
-                return 0
-            
-    
-    return 1 
+Dir = {
+    'D' : 0,
+    'R' : 1,
+    'U' : 2,
+    'L' : 3
+}
 
-       
-while True:
-    a = simulate(array)
-    # a가 True이면 이동 했음을 의미하므로 이동한 자리를 1표시 해준다. 그리고 내려온 자리인 이전 자리는 0으로 표시해준다.
-    if a:
-        pass
-    else:
-        for i in range(n):
-            for j in range(n):
-                print(array[i][j], end=' ')
-            print('')
-        break
+def rotate():
+    for i in range(n):
+        for j in range(n):
+            temp[i][j] = arr[n-1-j][i]
+    for i in range(n):
+        for j in range(n):
+            arr[i][j] = temp[i][j]
+            temp[i][j] = 0
+    #print(arr)
+
+def mul():
+    drop()
+    for j in range(n):
+        for i in range(n-1, 0, -1):
+            if not arr[i][j] or arr[i][j] != arr[i-1][j]:
+                continue
+            elif arr[i][j] == arr[i-1][j]:
+                arr[i][j] *= 2
+                arr[i-1][j] = 0
+    drop()
+    for _ in range(4 - Dir[direction]):
+        rotate()
+
+def drop():
+    for i in range(n):
+        for j in range(n):
+            temp[i][j] = 0
+    for j in range(n):
+        row = n-1
+        for i in range(n-1, -1, -1):
+            if arr[i][j] != 0:
+                temp[row][j] = arr[i][j]
+                row -= 1
+    for i in range(n):
+        for j in range(n):
+            arr[i][j] = temp[i][j]
+
+def rotate2(num):
+    for i in range(num):
+        rotate()
+    mul()
+
+rotate2(Dir[direction])
+
+for i in range(n):
+    for j in range(n):
+        print(arr[i][j], end =' ')
+    print()

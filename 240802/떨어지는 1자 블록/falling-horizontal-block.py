@@ -1,59 +1,32 @@
-arr = [list(map(int, input().split())) for _ in range(4)]
-n = 4
-direction = input()
+n, m, k = map(int, input().split())
+k -= 1
+arr = [list(map(int, input().split())) for _ in range(n)]
 
-temp = [[0] * n for _ in range(n)]
+def in_range(i, j):
+    return -1 <= i < n and 0 <= j < n
 
-Dir = {
-    'D' : 0,
-    'R' : 1,
-    'U' : 2,
-    'L' : 3
-}
+def can_move(x):
+    for i in range(m):
+        if arr[x + 1][k + i] == 1:
+            return 0
+        else:
+            continue
+    return 1
 
-def rotate():
-    for i in range(n):
-        for j in range(n):
-            temp[i][j] = arr[n-1-j][i]
-    for i in range(n):
-        for j in range(n):
-            arr[i][j] = temp[i][j]
-            temp[i][j] = 0
-    #print(arr)
+def simul():
+    for i in range(-1, n-1):
+        if can_move(i) == 0:
+            break
+        else:
+            for j in range(k, k + m):
+                if in_range(i, j):
+                    arr[i + 1][j] = 1
+                    if i > -1:
+                        arr[i][j] = 0
+                else:
+                    break
 
-def mul():
-    drop()
-    for j in range(n):
-        for i in range(n-1, 0, -1):
-            if not arr[i][j] or arr[i][j] != arr[i-1][j]:
-                continue
-            elif arr[i][j] == arr[i-1][j]:
-                arr[i][j] *= 2
-                arr[i-1][j] = 0
-    drop()
-    for _ in range(4 - Dir[direction]):
-        rotate()
-
-def drop():
-    for i in range(n):
-        for j in range(n):
-            temp[i][j] = 0
-    for j in range(n):
-        row = n-1
-        for i in range(n-1, -1, -1):
-            if arr[i][j] != 0:
-                temp[row][j] = arr[i][j]
-                row -= 1
-    for i in range(n):
-        for j in range(n):
-            arr[i][j] = temp[i][j]
-
-def rotate2(num):
-    for i in range(num):
-        rotate()
-    mul()
-
-rotate2(Dir[direction])
+simul()
 
 for i in range(n):
     for j in range(n):

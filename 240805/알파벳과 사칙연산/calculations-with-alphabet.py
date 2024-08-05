@@ -1,54 +1,54 @@
-exps = list(input())
+n = list(input().strip())
 
 alpha = []
+math = []
 
-exp = []
-
-for e in exps:
+for e in n:
     if e.isalpha():
         alpha.append(e)
     else:
-        exp.append(e)
-alpha = list(set(alpha))
-alpha_mapping = {
-    a: 0
-    for a in set(alpha)
-}
+        math.append(e)
 
-result = 0
+unique_alpha = list(set(alpha))
+alpha_mapping = {a: 0 for a in unique_alpha}
+memo = {}
 
-selected = []
-
-def calculate():
-    global selected
-    global alpha_mapping
-    for i, k in enumerate(alpha_mapping.keys()):
+def compute():
+    for i, k in enumerate(unique_alpha):
         alpha_mapping[k] = selected[i]
 
     r = alpha_mapping[alpha[0]]
-
-    for i, ex in enumerate(exp):
+    for i, ex in enumerate(math):
         a = alpha[i + 1]
         if ex == "-":
-            r = r - alpha_mapping[a]
+            r -= alpha_mapping[a]
         elif ex == "+":
-            r = r + alpha_mapping[a]
+            r += alpha_mapping[a]
         elif ex == "*":
-            r = r * alpha_mapping[a]
-    
+            r *= alpha_mapping[a]
+
     return r
 
-def select(idx):
+def check(idx):
     global result
-    if idx == len(alpha):
-        result = max(result, calculate())
+    key = tuple(selected)
+    if key in memo:
+        return memo[key]
+
+    if idx == len(unique_alpha):
+        val = compute()
+        result = max(result, val)
+        memo[key] = val
         return
 
     for i in range(1, 5):
         selected.append(i)
-        select(idx + 1)
+        check(idx + 1)
         selected.pop()
+    
+    memo[key] = result
 
-select(0)
-
+result = float('-inf')
+selected = []
+check(0)
 print(result)

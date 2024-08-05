@@ -26,7 +26,10 @@ def check_combs(curr_a):
             continue
         curr_a[k] += 1
         check_combs(curr_a)
-        curr_a[k] -= 1
+        if curr_a[k] == 1:
+            curr_a[k] = 1
+        else: 
+            curr_a[k] -=1
     
 check_combs(arr)
 print(res)

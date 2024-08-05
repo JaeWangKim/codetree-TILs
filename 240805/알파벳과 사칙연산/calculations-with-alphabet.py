@@ -1,36 +1,54 @@
-n = input()
-arr = {}
+exps = list(input())
 
-for i in range(0, len(n), 2):
-    arr[n[i]] = 1
-res = -(2**31)
+alpha = []
 
-def compute_and_compare(curr_a):
-    global res
-    val = curr_a[n[0]]
+exp = []
 
-    for i in range(1, len(n), 2):
-        if n[i] == '+':
-            val += curr_a[n[i+1]]
-        if n[i] == '-':
-            val -= curr_a[n[i+1]]
-        if n[i] == '*':
-            val *= curr_a[n[i+1]]
-    res = max(res, val)
+for e in exps:
+    if e.isalpha():
+        alpha.append(e)
+    else:
+        exp.append(e)
+alpha = list(set(alpha))
+alpha_mapping = {
+    a: 0
+    for a in set(alpha)
+}
 
-def check_combs(curr_a):
-    compute_and_compare(curr_a)
+result = 0
 
-    for k in arr.keys():
-        if curr_a[k] >= 4:
-            return 
-            #continue
-        curr_a[k] += 1
-        check_combs(curr_a)
-        if curr_a[k] == 1:
-            curr_a[k] = 1
-        else: 
-            curr_a[k] -=1
+selected = []
+
+def calculate():
+    global selected
+    global alpha_mapping
+    for i, k in enumerate(alpha_mapping.keys()):
+        alpha_mapping[k] = selected[i]
+
+    r = alpha_mapping[alpha[0]]
+
+    for i, ex in enumerate(exp):
+        a = alpha[i + 1]
+        if ex == "-":
+            r = r - alpha_mapping[a]
+        elif ex == "+":
+            r = r + alpha_mapping[a]
+        elif ex == "*":
+            r = r * alpha_mapping[a]
     
-check_combs(arr)
-print(res)
+    return r
+
+def select(idx):
+    global result
+    if idx == len(alpha):
+        result = max(result, calculate())
+        return
+
+    for i in range(1, 5):
+        selected.append(i)
+        select(idx + 1)
+        selected.pop()
+
+select(0)
+
+print(result)

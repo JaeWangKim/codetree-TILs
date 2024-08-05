@@ -23,7 +23,8 @@ def check_combs(curr_a):
 
     for k in arr.keys():
         if curr_a[k] >= 4:
-            continue
+            return 
+            #continue
         curr_a[k] += 1
         check_combs(curr_a)
         if curr_a[k] == 1:

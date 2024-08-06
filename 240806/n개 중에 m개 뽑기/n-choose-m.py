@@ -19,5 +19,5 @@ for i in range(1, n+1):
 
 
 result= list(combinations(data, m))
-for i, j in result:
-    print(i, j)
+for i in result:
+    print(*i)

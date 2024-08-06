@@ -1,21 +1,21 @@
-n, m = map(int, input().split())
+from sys import stdin
+n, m = list(map(int, stdin.readline().split()))
+number = list(map(int, stdin.readline().split()))
 
-a = list(map(int, input().split()))
-an =[]
-max_total = 0
-def choose(curr_a):
-    global max_total
-    total =0
-    if curr_a == m + 1:
-        for i in range(m):
-            total ^= an[i]
-        max_total = max(int(total), max_total)
-        return
-        
+base = []
+def choose(curr_num, idx): #curr_num번째 자리에 들어갈 차례이며 number의 idx까지 뽑음
+    if curr_num == m+1: #m개 뽑은 후에 끝
+        result = base[0]
+        for i in range(1, m):
+            result = result ^ base[i]
+        # print(base, result)
+        return result
     
-    for i in a:
-        an.append(i)
-        choose(curr_a + 1)
-        an.pop()
-choose(1)
-print(max_total)
+    ans = 0
+    for i in range(idx+1, n): #idx+1~n-1까지 숫자를 가져옴
+        base.append(number[i])
+        ans = max(ans, choose(curr_num+1, i))
+        base.pop()
+    return ans
+
+print(choose(1,-1))

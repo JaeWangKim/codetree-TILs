@@ -3,7 +3,7 @@ input = sys.stdin.readline
 r, c = map(int, input().split())
 
 array = [
-    list(input()) for _ in range(r)
+    list(input().split()) for _ in range(r)
 ]
 
 #  방문위치 기억, 이전 문자 색 기억 다 필요없고, 무조건 오른쪽 아래로 이동해야 하는 걸 이용하려면  4중 for문함련 모두 해결된다.

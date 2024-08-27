@@ -39,7 +39,8 @@ def dfs(x, y):
 for i in range(0, n):
     for j in range(0, n):
         if not visited[i][j] and arr[i][j] == 1:
-            people = 0  # 새로운영역이므로 1시작
+            people = 1  # 새로운영역이므로 1시작
+            visited[i][j] = True
             dfs(i, j)
             house += 1
             people_total.append(people)
@@ -50,8 +51,3 @@ people_total.sort()
 print(len(people_total))
 for a in people_total:
     print(a)
-
-
-
-
-# 인접행렬로 할 것인가. 인접리스트로 할 것인가. 계속해서 퍼져나가야함,. 언제까지? 0을 만날 때 까지. 0을 만나면 이제 cnt초기화

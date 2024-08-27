@@ -13,7 +13,7 @@ def in_range(x,y):
 def can_go(x, y):
     if not in_range(x,y):
         return False
-    if visited[x][y] and lis[x][y] == 0:
+    if visited[x][y] or lis[x][y] == 0:
         return False
     return True
 

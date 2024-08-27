@@ -41,8 +41,9 @@ for i in range(0, n):
         if not visited[i][j] and arr[i][j] == 1:
             people = 1  # 새로운영역이므로 1시작
             visited[i][j] = True
-            dfs(i, j)
             house += 1
+            dfs(i, j)
+            
             people_total.append(people)
            
 

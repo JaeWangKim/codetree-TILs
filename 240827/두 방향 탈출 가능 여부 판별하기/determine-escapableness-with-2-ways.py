@@ -1,14 +1,14 @@
 n,  m = map(int, input().split())
 
-lis = [list(map(int, input().split())) for _ in range(m)]
+lis = [list(map(int, input().split())) for _ in range(n)]
 
-visited = [[False]*n for _ in range(m)]
+visited = [[False]*m for _ in range(n)]
 
 
 order = 1
 
 def in_range(x,y):
-    return 0<= x <= n-2 and 0<= y <= m-2
+    return 0<= x <= n-1 and 0<= y <= m-1
 
 def can_go(x, y):
     if not in_range(x,y):
